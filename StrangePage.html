@@ -1,0 +1,72 @@
+<html>
+<head></head>
+<body style="display: flex; align-items: center; justify-content: center; overflow:hidden">
+<h1 id="mainHeader"></h1>
+<div id="innerBox" style="display: flex; align-items: center; justify-content: center; opacity: 0;">
+<div id="nInnerBox" style="display: flex; align-items: center; justify-content: center; ">
+<div id="nInnerBox2"></div>
+</div>
+</div>
+</body>
+<style>
+
+</style>
+<script>
+    let mode = 0, r=0, g=150, b=0; 
+	const element1Style = document.getElementById('innerBox').style;
+	const element2Style = document.getElementById('nInnerBox').style;
+	const element3Style = document.getElementById('nInnerBox2').style;
+	
+	const header = document.getElementById('mainHeader');
+	const text = 'Hi there. Welcome to interactive presentation of the insanity!'.toUpperCase();
+	let textPosition=0;
+	let timeoutMS = 150;
+	
+function next(){
+    setTimeout(()=>{
+		if(textPosition<text.length){
+			header.innerHTML+=text[textPosition++];
+		}
+		else{
+			element1Style.opacity = 1;
+			header.innerHTML=`LAYER${r.toString(2)}`;
+			timeoutMS = 10;
+		}
+	
+        if(r>=200||g>=200||b>=200) mode= mode<2?mode+1:0;
+        document.body.style.background=`rgb(${mode==0?r++:r>20?r--:20},${mode==1?g++:g>20?g--:20},${mode==2?b++:b>20?b--:20})`;
+		
+		const alpha1 = ((mode+1)*30)/100;
+		
+		
+        element1Style.background=`rgba(${mode==2?b:b>20?b:20},${mode==1?g:g>20?g:20},${mode==0?r:r>20?r:20},${alpha1})`;
+        element1Style.borderRadius=`${r}px`;
+        element1Style.margin=`${r}px`;
+        element1Style.transform=`rotate(${r}deg)`;
+        element1Style.boxShadow=`0px 0px ${r/2}px white`;
+        element1Style.height=`${~~((r/200)*70)}vh`;
+        element1Style.width=`${~~((r/200)*70)}vw`;
+		
+		const alpha2 = ((3-mode)*30)/100;
+        
+		element2Style.background=`rgba(${mode==2?b:b>20?b:20},${mode==1?r:r>20?r:20},${mode==0?g:g>20?g:20},${alpha2})`;
+        element2Style.borderRadius=`${g}px`;
+        element2Style.margin=`${g}px`;
+		element2Style.transform=`rotate(${g*2}deg)`;
+		element2Style.boxShadow=`0px 0px ${g/2}px white`;
+				
+		element3Style.background=`rgba(${mode==2?g:g>20?g:20},${mode==1?b:b>20?b:20},${mode==0?r:r>20?r:20},${r/200})`;
+		element3Style.borderRadius=`${b}px`;
+		element3Style.margin=`${b}px`;
+		element3Style.transform=`rotate(${b*3}deg)`;
+		element3Style.boxShadow=`0px 0px ${b/2}px white`;
+		element3Style.height=`${~~((b/200)*70)}vh`;
+        element3Style.width=`${~~((b/200)*70)}vw`;
+
+		next();
+	},timeoutMS);
+}
+
+next();
+</script>
+</html>
